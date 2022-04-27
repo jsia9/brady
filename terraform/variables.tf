@@ -3,7 +3,7 @@ variable "rgname" {
   default  = "brady"
   type = string
 }
-variable "" {
+variable "location" {
   description = "Azure Location"
   default = "UK South"
   type = string

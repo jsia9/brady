@@ -1,23 +1,21 @@
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
+resource "azurerm_resource_group" "brady" {
+  name     = "brady"
   location = "UK South"
 }
 
-resource "azurerm_storage_account" "example" {
-  name                     = "storageaccountname"
-  resource_group_name      = azurerm_resource_group.example.name
-  location                 = azurerm_resource_group.example.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-
-  tags = {
-    brady = "interview"
-    environment = "dev"
-  }
+resource "azurerm_service_plan" "bradyweather" {
+  name                = "bradyweather"
+  resource_group_name = azurerm_resource_group.brady.name
+  location            = "UK South"
+  os_type             = "Linux"
+  sku_name            = "P1v2"
 }
 
-module "RG" {
-  source = "./modules/RG"
-  rgname = var.rgname
-  location = var.location
+resource "azurerm_linux_web_app" "bradyweather" {
+  name                = "bradyweather"
+  resource_group_name = azurerm_resource_group.brady.name
+  location            = azurerm_service_plan.bradyweather.location
+  service_plan_id     = azurerm_service_plan.bradyweather.id
+
+  site_config {}
 }
