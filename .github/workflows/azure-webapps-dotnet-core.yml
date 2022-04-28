@@ -23,9 +23,9 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  APP_LOCATION: "Src/Presentation/BradyWeather.Blazor.Server/" # location of your client code
-  API_LOCATION: "api" # location of your api source code - optional
-  APP_ARTIFACT_LOCATION: "Src/Presentation/BradyWeather.Blazor.Server/obj" # location of client code build output
+  APP_LOCATION: "/Src/Presentation/BradyWeather.Blazor.Server/" # location of your client code
+  API_LOCATION: "/Src/Core/BradyWeather.Application/" # location of your api source code - optional
+  APP_ARTIFACT_LOCATION: "/Src/Presentation/BradyWeather.Blazor.Server/" # location of client code build output
   AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }} # secret containing deployment token for your static web app
 #https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#argument-reference
   ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
