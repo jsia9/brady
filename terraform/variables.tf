@@ -5,6 +5,6 @@ variable "rgname" {
 }
 variable "location" {
   description = "Azure Location"
-  default = "UK South"
+  default = "West Europe"
   type = string
 }

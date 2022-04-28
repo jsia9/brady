@@ -19,3 +19,12 @@ Variables are stored in the github secrets
 ### set the secrets
 
 dotnet user-secrets set "Web:WeatherApi:ApiKey" "<the_accuweather_api_token>"
+
+### Imports terraform
+
+Since the resource group was created manually, in order to create the static web app
+
+```
+terraform import azurerm_resource_group.brady /subscriptions/486a9951-2629-4a1c-82b2-69d1a4579f1f/resourceGroups/brady
+terraform import azurerm_static_site.jmlbrady /subscriptions/486a9951-2629-4a1c-82b2-69d1a4579f1f/resourcegroups/brady/providers/Microsoft.Web/staticSites/jmlbrady
+```
