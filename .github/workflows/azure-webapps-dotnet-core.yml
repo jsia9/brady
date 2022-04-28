@@ -64,14 +64,6 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check
 
-    # Import
-    - name: Terraform Import Resource group
-      run: terraform import azurerm_resource_group.brady /subscriptions/486a9951-2629-4a1c-82b2-69d1a4579f1f/resourceGroups/brady
-
-    # Import
-    - name: Terraform Import  static Site
-      run: terraform import azurerm_static_site.jmlbrady /subscriptions/486a9951-2629-4a1c-82b2-69d1a4579f1f/resourcegroups/brady/providers/Microsoft.Web/staticSites/jmlbrady
-
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -input=false
