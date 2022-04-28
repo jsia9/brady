@@ -15,11 +15,11 @@ name: Build the infrastructure and Deploy web app to Azure Static Web Apps
 on:
   push:
     branches:
-      - main
+      - '**'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - *
+      - '**'
 
 # Environment variables available to all jobs and steps in this workflow
 env:
