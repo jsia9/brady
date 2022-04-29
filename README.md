@@ -6,28 +6,35 @@ https://bradyweatherjml.azurewebsites.net
 ### deploy an azure static web app
 
 Azure static web apps are a new type of web apps ; globally distributed. offers serverless APIs with Azure Functions. has builtin authentication and routing rules and TLS certificates. We can also provide a staging environment as the code the Blazor repository has an environment variable.
-The workflow has two parts.
-creating the static web app and then deploying the dotnet blazor application.
+The workflow has 3 parts. (in .github/workflows/azure-webapps-dotnet-core.yml)
+creating the static web app in azure ; build and then deploying the dotnet blazor application.
 I have previously added the variables on the github secrets.
 This terraform code deploys an azure web app called BradyWeather in the resource group brady
 
-### Automated steps
+###
+
+### Automated steps in Azure
 
 Variables are stored in the github secrets
 
+done in the terraform folder:
 - create the resource group
 - create the azure web app
 
+build and deploy steps are done in the workflow 
+
 
 ### set the secrets
-
+TODO: use the secrets for the accuweather
 dotnet user-secrets set "Web:WeatherApi:ApiKey" "<the_accuweather_api_token>"
 
-### Imports terraform
+### Dotnet
 
-Since the resource group was created manually, in order to create the static web app
-
+TODO :
+understand how Dotnet deploys the app which can run locally by
 ```
-terraform import azurerm_resource_group.brady /subscriptions/486a9951-2629-4a1c-82b2-69d1a4579f1f/resourceGroups/brady
-terraform import azurerm_static_site.jmlbrady /subscriptions/486a9951-2629-4a1c-82b2-69d1a4579f1f/resourcegroups/brady/providers/Microsoft.Web/staticSites/jmlbrady
+cd Src/Presentation/BradyWeather.Blazor.Server
+dotnet watch run
 ```
+Prereq:
+install dotnet 3.1 locally.
