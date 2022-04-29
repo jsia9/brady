@@ -19,8 +19,9 @@ resource "azurerm_linux_web_app" "bradyweatherjml" {
   service_plan_id     = azurerm_service_plan.bradyweather.id
 
   site_config {
-    app_settings = {
-      WEBSITE_WEBDEPLOY_USE_SCM = true
-    }
+
+  }
+  app_settings = {
+    WEBSITE_WEBDEPLOY_USE_SCM = true
   }
 }
