@@ -150,10 +150,16 @@ jobs:
         echo "::set-output name=PUBLISH_PROFILE::$(az webapp deployment list-publishing-profiles -g 'brady' -n '${{env.AZURE_WEBAPP_NAME}}' --xml)"
       id: getPublishProfile
 
+    # Runs a set of commands using the runners shell
+    - name: Run a multi-line script
+      run: |
+        ls
+        pwd
+
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ steps.getPublishProfile.outputs.PUBLISH_PROFILE  }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/Src/Presentation/BradyWeather.Blazor.Server
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
