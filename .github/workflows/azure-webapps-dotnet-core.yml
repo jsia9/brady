@@ -84,8 +84,6 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
 
-
-
     - name: Get Publish Profile
       run: |
         echo "::set-output name=PUBLISH_PROFILE::$(az webapp deployment list-publishing-profiles -g 'brady' -n '${{env.AZURE_WEBAPP_NAME}}' --xml)"
@@ -133,20 +131,25 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: .net-app
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: .net-app
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ steps.setcredentials.outputs.az_credentials }}
+    - name: Set Credentials
+      id: setcredentials
+      run: |
+         echo ::set-output name=az_credentials::'{ "clientId": "${{ secrets.AZURE_AD_CLIENT_ID  }}", "clientSecret": "${{ secrets.AZURE_AD_CLIENT_SECRET }}" ,  "subscriptionId": "${{ secrets.AZURE_AD_SUBSCRIPTION_ID }}", "tenantId": "${{ secrets.AZURE_AD_TENANT_ID  }}" }'
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ steps.getPublishProfile.outputs.PUBLISH_PROFILE  }}
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ steps.setcredentials.outputs.az_credentials }}
+
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ steps.getPublishProfile.outputs.PUBLISH_PROFILE  }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
