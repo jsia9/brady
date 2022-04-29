@@ -50,6 +50,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Set Credentials
+      id: setcredentials
+      run: |
+         echo ::set-output name=az_credentials::'{ "clientId": "${{ secrets.AZURE_AD_CLIENT_ID  }}", "clientSecret": "${{ secrets.AZURE_AD_CLIENT_SECRET }}" ,  "subscriptionId": "${{ secrets.AZURE_AD_SUBSCRIPTION_ID }}", "tenantId": "${{ secrets.AZURE_AD_TENANT_ID  }}" }'
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ steps.setcredentials.outputs.az_credentials }}
+        
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
@@ -74,15 +84,6 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
 
-    - name: Set Credentials
-      id: setcredentials
-      run: |
-         echo ::set-output name=az_credentials::'{ "clientId": "${{ secrets.AZURE_AD_CLIENT_ID  }}", "clientSecret": "${{ secrets.AZURE_AD_CLIENT_SECRET }}" ,  "subscriptionId": "${{ secrets.AZURE_AD_SUBSCRIPTION_ID }}", "tenantId": "${{ secrets.AZURE_AD_TENANT_ID  }}" }'
-
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ steps.setcredentials.outputs.az_credentials }}
 
 
     - name: Get Publish Profile
