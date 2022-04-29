@@ -74,6 +74,11 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
 
+    - name: Get Publish Profile
+      run: |
+        echo "::set-output name=PUBLISH_PROFILE::$(az webapp deployment list-publishing-profiles -g 'brady' -n '${{env.AZURE_WEBAPP_NAME}}' --xml)"
+      id: getPublishProfile
+
   build:
     runs-on: ubuntu-latest
 
@@ -123,5 +128,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          publish-profile: ${{ steps.getPublishProfile.outputs.PUBLISH_PROFILE  }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
