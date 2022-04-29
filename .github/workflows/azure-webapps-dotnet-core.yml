@@ -84,10 +84,6 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
 
-    - name: Get Publish Profile
-      run: |
-        echo "::set-output name=PUBLISH_PROFILE::$(az webapp deployment list-publishing-profiles -g 'brady' -n '${{env.AZURE_WEBAPP_NAME}}' --xml)"
-      id: getPublishProfile
 
 
   build:
@@ -145,6 +141,11 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ steps.setcredentials.outputs.az_credentials }}
+
+    - name: Get Publish Profile
+      run: |
+        echo "::set-output name=PUBLISH_PROFILE::$(az webapp deployment list-publishing-profiles -g 'brady' -n '${{env.AZURE_WEBAPP_NAME}}' --xml)"
+      id: getPublishProfile
 
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
