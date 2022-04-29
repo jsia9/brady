@@ -1,7 +1,7 @@
 ## terraform
 ### URL
 
-(still not working)
+https://bradyweatherjml.azurewebsites.net
 
 ### deploy an azure static web app
 
