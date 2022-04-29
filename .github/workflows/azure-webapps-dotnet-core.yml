@@ -82,7 +82,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        credentials: ${{ steps.setcredentials.outputs.az_credentials }}
+        creds: ${{ steps.setcredentials.outputs.az_credentials }}
 
 
     - name: Get Publish Profile
